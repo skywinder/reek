@@ -23,7 +23,7 @@ module Reek
       end
 
       def self_is_max?
-        biggest_counts.length == 0 || @refs[:self] == @refs.values.max
+        @refs.empty? || biggest_counts.keys.include?(:self)
       end
     end
   end
