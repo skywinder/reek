@@ -17,17 +17,13 @@ module Reek
         @refs[name]
       end
 
-      def max_refs
-        @refs.values.max || 0
-      end
-
       def max_keys
-        max = max_refs
+        max = @refs.values.max
         @refs.select { |_key, val| val == max }
       end
 
       def self_is_max?
-        max_keys.length == 0 || @refs[:self] == max_refs
+        max_keys.length == 0 || @refs[:self] == @refs.values.max
       end
     end
   end
