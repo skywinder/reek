@@ -9,6 +9,11 @@ module Reek
         @refs = Hash.new(0)
       end
 
+      def biggest_counts
+        max = @refs.values.max
+        @refs.select { |_key, val| val == max }
+      end
+
       def record_reference_to(name)
         @refs[name] += 1
       end
@@ -17,13 +22,8 @@ module Reek
         @refs[name]
       end
 
-      def max_keys
-        max = @refs.values.max
-        @refs.select { |_key, val| val == max }
-      end
-
       def self_is_max?
-        max_keys.length == 0 || @refs[:self] == @refs.values.max
+        biggest_counts.length == 0 || @refs[:self] == @refs.values.max
       end
     end
   end
