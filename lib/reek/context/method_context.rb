@@ -57,7 +57,7 @@ module Reek
 
       def envious_receivers
         return {} if @refs.self_is_max?
-        @refs.biggest_counts
+        @refs.most_popular
       end
 
       def references_self?

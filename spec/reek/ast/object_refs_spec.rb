@@ -25,7 +25,7 @@ RSpec.describe Reek::AST::ObjectRefs do
       end
 
       it 'should report :a as the max' do
-        expect(@refs.biggest_counts).to eq(a: 2)
+        expect(@refs.most_popular).to include(:a)
       end
 
       it 'should not report self as the max' do
@@ -42,8 +42,8 @@ RSpec.describe Reek::AST::ObjectRefs do
         end
 
         it 'should not report self among the max' do
-          expect(@refs.biggest_counts).to include(:a)
-          expect(@refs.biggest_counts).not_to include(:self)
+          expect(@refs.most_popular).to include(:a)
+          expect(@refs.most_popular).not_to include(:self)
         end
 
         it 'should not report self as the max' do
@@ -69,7 +69,7 @@ RSpec.describe Reek::AST::ObjectRefs do
     end
 
     it 'should report self among the max' do
-      expect(@refs.biggest_counts).to eq(self: 4)
+      expect(@refs.most_popular).to include(:self)
     end
 
     it 'should report self as the max' do
@@ -91,8 +91,8 @@ RSpec.describe Reek::AST::ObjectRefs do
     end
 
     it 'should report self among the max' do
-      expect(@refs.biggest_counts).to include(:a)
-      expect(@refs.biggest_counts).to include(:self)
+      expect(@refs.most_popular).to include(:a)
+      expect(@refs.most_popular).to include(:self)
     end
 
     it 'should report self as the max' do
@@ -113,8 +113,8 @@ RSpec.describe Reek::AST::ObjectRefs do
     end
 
     it 'should not report self among the max' do
-      expect(@refs.biggest_counts).to include(:a)
-      expect(@refs.biggest_counts).to include(:b)
+      expect(@refs.most_popular).to include(:a)
+      expect(@refs.most_popular).to include(:b)
     end
 
     it 'should not report self as the max' do

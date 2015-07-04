@@ -10,11 +10,9 @@ module Reek
         @refs = Hash.new { |refs, name| refs[name] = [] }
       end
 
-      def biggest_counts
+      def most_popular
         max = @refs.values.map(&:size).max
-        Hash[@refs.select { |_name, refs| refs.size == max }.map do |name, refs|
-          [name, refs.size]
-        end]
+        @refs.select { |_name, refs| refs.size == max }
       end
 
       def record_reference_to(name)
@@ -26,7 +24,7 @@ module Reek
       end
 
       def self_is_max?
-        @refs.empty? || biggest_counts.keys.include?(:self)
+        @refs.empty? || most_popular.keys.include?(:self)
       end
     end
   end

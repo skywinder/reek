@@ -46,7 +46,7 @@ RSpec.describe Reek::Context::MethodContext do
 
     it 'should record envious calls' do
       mc.record_call_to s(:send, s(:lvar, :bar), :baz)
-      expect(mc.envious_receivers).to eq(bar: 1)
+      expect(mc.envious_receivers).to include(:bar)
     end
   end
 end

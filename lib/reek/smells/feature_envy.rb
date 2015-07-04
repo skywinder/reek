@@ -48,12 +48,12 @@ module Reek
       #
       def examine_context(method_ctx)
         return [] unless method_ctx.references_self?
-        method_ctx.envious_receivers.map do |name, count|
+        method_ctx.envious_receivers.map do |name, refs|
           SmellWarning.new self,
                            context: method_ctx.full_name,
                            lines: [method_ctx.exp.line],
                            message: "refers to #{name} more than self",
-                           parameters: { name: name.to_s, count: count }
+                           parameters: { name: name.to_s, count: refs.size }
         end
       end
     end
