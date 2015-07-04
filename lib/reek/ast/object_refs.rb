@@ -1,21 +1,24 @@
 module Reek
-  module AST
+  module AST  # :nodoc:
+    ObjectRef = Struct.new(:name)
     #
     # Manages and counts the references out of a method to other objects.
     #
     # @api private
     class ObjectRefs  # :nodoc:
       def initialize
-        @refs = Hash.new(0)
+        @refs = Hash.new { |refs, name| refs[name] = [] }
       end
 
       def biggest_counts
-        max = @refs.values.max
-        @refs.select { |_key, val| val == max }
+        max = @refs.values.map(&:size).max
+        Hash[@refs.select { |_name, refs| refs.size == max }.map do |name, refs|
+          [name, refs.size]
+        end]
       end
 
       def record_reference_to(name)
-        @refs[name] += 1
+        @refs[name] << ObjectRef.new(name)
       end
 
       def references_to(name)

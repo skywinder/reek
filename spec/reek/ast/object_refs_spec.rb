@@ -8,7 +8,7 @@ RSpec.describe Reek::AST::ObjectRefs do
 
   context 'when empty' do
     it 'should report no refs to self' do
-      expect(@refs.references_to(:self)).to eq(0)
+      expect(@refs.references_to(:self)).to be_empty
     end
   end
 
@@ -21,7 +21,7 @@ RSpec.describe Reek::AST::ObjectRefs do
       end
 
       it 'should report no refs to self' do
-        expect(@refs.references_to(:self)).to eq(0)
+        expect(@refs.references_to(:self)).to be_empty
       end
 
       it 'should report :a as the max' do
@@ -38,7 +38,7 @@ RSpec.describe Reek::AST::ObjectRefs do
         end
 
         it 'should report 1 ref to self' do
-          expect(@refs.references_to(:self)).to eq(1)
+          expect(@refs.references_to(:self).size).to eq(1)
         end
 
         it 'should not report self among the max' do
@@ -65,7 +65,7 @@ RSpec.describe Reek::AST::ObjectRefs do
     end
 
     it 'should report all refs to self' do
-      expect(@refs.references_to(:self)).to eq(4)
+      expect(@refs.references_to(:self).size).to eq(4)
     end
 
     it 'should report self among the max' do
@@ -87,7 +87,7 @@ RSpec.describe Reek::AST::ObjectRefs do
     end
 
     it 'should report all refs to self' do
-      expect(@refs.references_to(:self)).to eq(2)
+      expect(@refs.references_to(:self).size).to eq(2)
     end
 
     it 'should report self among the max' do
@@ -109,7 +109,7 @@ RSpec.describe Reek::AST::ObjectRefs do
     end
 
     it 'should report all refs to self' do
-      expect(@refs.references_to(:self)).to eq(0)
+      expect(@refs.references_to(:self).size).to eq(0)
     end
 
     it 'should not report self among the max' do
