@@ -9,12 +9,12 @@ module Reek
         @refs = Hash.new(0)
       end
 
-      def record_reference_to(exp)
-        @refs[exp] += 1
+      def record_reference_to(name)
+        @refs[name] += 1
       end
 
-      def references_to(exp)
-        @refs[exp]
+      def references_to(name)
+        @refs[name]
       end
 
       def max_refs

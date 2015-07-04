@@ -33,7 +33,7 @@ RSpec.describe Reek::Context::MethodContext do
     end
 
     it 'should ignore explicit calls to self' do
-      mc.refs.record_reference_to [:lvar, :other]
+      mc.refs.record_reference_to :other
       mc.record_call_to s(:send, s(:self), :thing)
       expect(mc.envious_receivers).to be_empty
     end
