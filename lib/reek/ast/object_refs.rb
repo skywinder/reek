@@ -1,6 +1,6 @@
 module Reek
   module AST  # :nodoc:
-    ObjectRef = Struct.new(:name)
+    ObjectRef = Struct.new(:name, :line)
     #
     # Manages and counts the references out of a method to other objects.
     #
@@ -15,8 +15,8 @@ module Reek
         @refs.select { |_name, refs| refs.size == max }
       end
 
-      def record_reference_to(name)
-        @refs[name] << ObjectRef.new(name)
+      def record_reference_to(name, line = nil)
+        @refs[name] << ObjectRef.new(name, line)
       end
 
       def references_to(name)
