@@ -15,9 +15,9 @@ RSpec.describe Reek::AST::ObjectRefs do
   context 'with references to a, b, and a' do
     context 'with no refs to self' do
       before(:each) do
-        @refs.record_reference_to('a')
-        @refs.record_reference_to('b')
-        @refs.record_reference_to('a')
+        @refs.record_reference_to(:a)
+        @refs.record_reference_to(:b)
+        @refs.record_reference_to(:a)
       end
 
       it 'should report no refs to self' do
@@ -25,7 +25,7 @@ RSpec.describe Reek::AST::ObjectRefs do
       end
 
       it 'should report :a as the max' do
-        expect(@refs.biggest_counts).to eq('a' => 2)
+        expect(@refs.biggest_counts).to eq(a: 2)
       end
 
       it 'should not report self as the max' do
@@ -42,7 +42,7 @@ RSpec.describe Reek::AST::ObjectRefs do
         end
 
         it 'should not report self among the max' do
-          expect(@refs.biggest_counts).to include('a')
+          expect(@refs.biggest_counts).to include(:a)
           expect(@refs.biggest_counts).not_to include(:self)
         end
 
@@ -57,10 +57,10 @@ RSpec.describe Reek::AST::ObjectRefs do
     before(:each) do
       @refs.record_reference_to(:self)
       @refs.record_reference_to(:self)
-      @refs.record_reference_to('a')
+      @refs.record_reference_to(:a)
       @refs.record_reference_to(:self)
-      @refs.record_reference_to('b')
-      @refs.record_reference_to('a')
+      @refs.record_reference_to(:b)
+      @refs.record_reference_to(:a)
       @refs.record_reference_to(:self)
     end
 
@@ -79,11 +79,11 @@ RSpec.describe Reek::AST::ObjectRefs do
 
   context 'when self is not the only max' do
     before(:each) do
-      @refs.record_reference_to('a')
+      @refs.record_reference_to(:a)
       @refs.record_reference_to(:self)
       @refs.record_reference_to(:self)
-      @refs.record_reference_to('b')
-      @refs.record_reference_to('a')
+      @refs.record_reference_to(:b)
+      @refs.record_reference_to(:a)
     end
 
     it 'should report all refs to self' do
@@ -91,7 +91,7 @@ RSpec.describe Reek::AST::ObjectRefs do
     end
 
     it 'should report self among the max' do
-      expect(@refs.biggest_counts).to include('a')
+      expect(@refs.biggest_counts).to include(:a)
       expect(@refs.biggest_counts).to include(:self)
     end
 
@@ -102,10 +102,10 @@ RSpec.describe Reek::AST::ObjectRefs do
 
   context 'when self is not among the max' do
     before(:each) do
-      @refs.record_reference_to('a')
-      @refs.record_reference_to('b')
-      @refs.record_reference_to('a')
-      @refs.record_reference_to('b')
+      @refs.record_reference_to(:a)
+      @refs.record_reference_to(:b)
+      @refs.record_reference_to(:a)
+      @refs.record_reference_to(:b)
     end
 
     it 'should report all refs to self' do
@@ -113,8 +113,8 @@ RSpec.describe Reek::AST::ObjectRefs do
     end
 
     it 'should not report self among the max' do
-      expect(@refs.biggest_counts).to include('a')
-      expect(@refs.biggest_counts).to include('b')
+      expect(@refs.biggest_counts).to include(:a)
+      expect(@refs.biggest_counts).to include(:b)
     end
 
     it 'should not report self as the max' do
