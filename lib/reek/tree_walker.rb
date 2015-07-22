@@ -80,13 +80,16 @@ module Reek
 
     def process_args(_) end
 
-    #
-    # Recording of calls to methods and self
-    #
-
     def process_send(exp)
       if visibility_modifier? exp
         @element.track_visibility(exp.method_name, exp.arg_names)
+      end
+      if attribute_writer? exp
+        exp.args.each do |arg|
+          next unless arg.type == :sym
+          inside_new_context(Context::MethodContext, arg) do
+          end
+        end
       end
       @element.record_call_to(exp)
       process_default(exp)
@@ -205,6 +208,14 @@ module Reek
       VISIBILITY_MODIFIERS.include?(call_node.method_name)
     end
 
+    # FIXME: Move to SendNode?
+    def attribute_writer?(call_node)
+      method_name = call_node.method_name
+      ATTR_DEFN_METHODS.include?(method_name) ||
+        method_name == :attr && call_node.args.last.type == :true
+    end
+
     VISIBILITY_MODIFIERS = [:private, :public, :protected, :module_function]
+    ATTR_DEFN_METHODS = [:attr_writer, :attr_accessor]
   end
 end

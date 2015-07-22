@@ -442,6 +442,19 @@ module Reek
       end
 
       ZsuperNode = SuperNode
+
+      # Utility methods for :sym nodes.
+      module SymNode
+        def name
+          children.first
+        end
+
+        # FIXME: Move full_name logic to contexts
+        def full_name(outer)
+          prefix = outer == '' ? '' : "#{outer}#"
+          "#{prefix}#{name}"
+        end
+      end
     end
   end
 end
