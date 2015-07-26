@@ -71,15 +71,17 @@ module Reek
 
       private
 
+      private_attr_reader :fail_on_error, :name, :verbose
+
       def define_task
         desc 'Check for code smells'
-        task(@name) { run_task }
+        task(name) { run_task }
       end
 
       def run_task
-        puts "\n\n!!! Running 'reek' rake command: #{command}\n\n" if @verbose
+        puts "\n\n!!! Running 'reek' rake command: #{command}\n\n" if verbose
         system(*command)
-        abort("\n\n!!! `reek` has found smells - exiting!") if sys_call_failed? && @fail_on_error
+        abort("\n\n!!! `reek` has found smells - exiting!") if sys_call_failed? && fail_on_error
       end
 
       def command
