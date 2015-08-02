@@ -24,10 +24,9 @@ SAMPLES_PATH = Pathname.new("#{__dir__}/samples").relative_path_from(Pathname.pw
 module Helpers
   def test_configuration_for(config)
     if config.is_a? Pathname
-      configuration = Reek::Configuration::AppConfiguration.new OpenStruct.new(config_file: config)
+      configuration = Reek::Configuration::AppConfiguration.new(path: config)
     elsif config.is_a? Hash
-      configuration = Reek::Configuration::AppConfiguration.new
-      configuration.instance_variable_set :@default_directive, config
+      configuration = Reek::Configuration::AppConfiguration.new(default_directive: config)
     else
       raise "Unknown config given in `test_configuration_for`: #{config.inspect}"
     end

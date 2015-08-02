@@ -33,19 +33,24 @@ module Reek
       #                          { Reek::Smells::UtilityFunction => { "enabled" => false } } }
       #
       #
-      # @param options [OpenStruct]
-      #   e.g.: #<OpenStruct report_format =: text,
-      #                      location_format =: numbers,
-      #                      colored = true,
-      #                      smells_to_detect = [],
-      #                      config_file = #<Pathname:config/defaults.reek>,
-      #                      argv = [ "lib/reek/spec" ]>
-      def initialize(options = nil)
-        @directory_directives = {}
-        @default_directive    = {}
-        @exclude_paths        = []
+      # @param  path [Pathname] the path to the config file
+      # @param  directory_directives [Hash] see above for an example
+      # @param  default_directive [Hash] see above for an example
+      # @param  exclude_paths [Array] see above for an example
+      def initialize(path: nil,
+                     directory_directives: nil,
+                     default_directive: nil,
+                     exclude_paths: nil)
+        if path && [directory_directives, default_directive, exclude_paths].any?
+          raise(ArgumentError,
+                'You can either pass a path or single configuration values but not both')
+        end
+        @path                 = path
+        @directory_directives = directory_directives || {}
+        @default_directive    = default_directive || {}
+        @exclude_paths        = exclude_paths || []
 
-        load options
+        find_and_load(path: path)
       end
 
       # @param source_via [String] - the source of the code inspected
@@ -71,8 +76,8 @@ module Reek
         directory_directives[hit]
       end
 
-      def load(options)
-        configuration_file = ConfigurationFileFinder.find_and_load(options: options)
+      def find_and_load(path: nil)
+        configuration_file = ConfigurationFileFinder.find_and_load(path: path)
 
         configuration_file.each do |key, value|
           case

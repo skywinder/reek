@@ -20,12 +20,11 @@ RSpec.describe Reek::Configuration::AppConfiguration do
     end
 
     it 'properly loads configuration and processes it' do
-      finder = Reek::Configuration::ConfigurationFileFinder
-      allow(finder).to receive(:find_by_cli).and_return full_configuration_path
+      configuration = Reek::Configuration::AppConfiguration.new path: full_configuration_path
 
-      expect(subject.exclude_paths).to eq(expected_exclude_paths)
-      expect(subject.default_directive).to eq(expected_default_directive)
-      expect(subject.directory_directives).to eq(expected_directory_directives)
+      expect(configuration.exclude_paths).to eq(expected_exclude_paths)
+      expect(configuration.default_directive).to eq(expected_default_directive)
+      expect(configuration.directory_directives).to eq(expected_directory_directives)
     end
   end
 
